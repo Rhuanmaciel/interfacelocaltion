@@ -8,7 +8,7 @@ const socket = io.connect('http://your-websocket-server.com');
 function initMap() {
     map = L.map('mapid').setView([0, 0], 2);
     L.tileLayer('https://{s}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey=pRmorT5MRKqeWDOMDXNAia7H6WYSH7PKomV9VNhh4UY', {
-        maxZoom: 19,
+        maxZoom: 3,
     }).addTo(map);
 }
 
