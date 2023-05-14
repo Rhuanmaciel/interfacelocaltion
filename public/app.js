@@ -10,7 +10,7 @@ function initMap() {
     attribution: 'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
     subdomains: '1234',
     mapID: 'newest',
-    apiKey: 'XDR6IxYlZY2IYG7Y0djDag',
+    apiKey: 'pRmorT5MRKqeWDOMDXNAia7H6WYSH7PKomV9VNhh4UY',
     base: 'base',
     variant: 'normal.day',
     maxZoom: 19,
