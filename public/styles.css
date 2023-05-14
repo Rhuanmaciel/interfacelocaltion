@@ -1,20 +1,24 @@
+html {
+    height: 100%;
+}
+
 body {
-    height: 100vh;
+    min-height: 100%;
     margin: 0;
     background-color: #1a1a1a;
     color: #ffffff;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: space-around;
-    align-items: flex-start; /* linha alterada */
-    padding: 2%;  /* Adiciona espaço em todos os lados */
+    align-items: flex-start;
+    padding: 2%;
 }
 
 #mapWrapper {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: 100vh; /* Altere esta linha */
+    height: calc(100vh - 4%);
     width: 100%;
 }
 
@@ -22,7 +26,7 @@ body {
     background-color: rgba(26, 26, 26, 0.8);
     padding: 1rem;
     border-radius: 10px;
-    overflow: auto;  /* Esta linha foi alterada */
+    overflow: auto;
     max-height: 95%;
     width: 23%;
     margin-right: 2%;
@@ -30,7 +34,7 @@ body {
 }
 
 #userTableWrapper h2 {
-    margin-bottom: 0.5rem;  /* Esta linha foi alterada */
+    margin-bottom: 0.5rem;
     font-size: 1.2em;
     text-align: left;
     margin-top: 0;
@@ -55,13 +59,15 @@ body {
 #mapContainer {
     position: relative;
     width: 74%;
-    height: 95%;
+    height: 100%;
     border-radius: 10px;
     overflow: hidden;
 }
 
 #mapid {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

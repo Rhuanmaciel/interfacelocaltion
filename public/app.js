@@ -98,3 +98,7 @@ document.getElementById('userSelect').addEventListener('change', (event) => {
 });
 
 initMap();
+
+document.addEventListener('DOMContentLoaded', function() {
+  initMap();
+});
