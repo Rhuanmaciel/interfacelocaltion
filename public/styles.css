@@ -6,16 +6,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#mapid {
-    position: relative;
-    width: 78%; /* Ajuste a largura do mapa conforme necessário */
-    height: 90%; /* Ajuste a altura do mapa conforme necessário */
-    margin-left: auto; /* Posiciona o mapa à direita */
-    border-radius: 10px; /* Adiciona bordas arredondadas */
-    overflow: hidden; /* Esconde qualquer conteúdo que ultrapasse as bordas arredondadas */
-    
-}
-
 #userSelection {
     position: absolute;
     top: 10px;
@@ -23,4 +13,19 @@ body {
     background-color: rgba(26, 26, 26, 0.8);
     padding: 5px;
     border-radius: 5px;
+}
+
+#mapContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+#mapid {
+    position: relative;
+    width: 74%; /* Ajuste a largura do mapa conforme necessário */
+    height: 95%; /* Ajuste a altura do mapa conforme necessário */
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+    overflow: hidden; /* Esconde qualquer conteúdo que ultrapasse as bordas arredondadas */
 }
