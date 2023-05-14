@@ -14,14 +14,6 @@ body {
     padding: 2%;
 }
 
-#mapWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: calc(100vh - 4%);
-    width: 100%;
-}
-
 #userTableWrapper {
     background-color: rgba(26, 26, 26, 0.8);
     padding: 1rem;
