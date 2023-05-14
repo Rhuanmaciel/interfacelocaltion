@@ -1,10 +1,17 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const path = require('path'); // Importação adicional
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+// Adicionado para servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Lista de usuários (isso seria substituído por uma lista dinâmica no seu caso)
 let users = [];
@@ -31,7 +38,6 @@ io.on('connection', (socket) => {
         }
     });
 
-
     socket.on('disconnect', () => {
         console.log('Cliente desconectado');
     });
@@ -40,4 +46,3 @@ io.on('connection', (socket) => {
 server.listen(process.env.PORT || 3000, () => {
     console.log('Servidor WebSocket escutando na porta ' + (process.env.PORT || 3000));
 });
-
