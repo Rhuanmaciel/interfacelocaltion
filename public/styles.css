@@ -58,7 +58,6 @@ body {
     height: 95%;
     border-radius: 10px;
     overflow: hidden;
-    margin: auto 0; /* Esta linha foi alterada */
 }
 
 #mapid {
