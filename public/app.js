@@ -7,7 +7,7 @@ const socket = io.connect('http://your-websocket-server.com');
 // Iniciar o mapa
 function initMap() {
     map = L.map('mapid').setView([0, 0], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey=YOUR_API_KEY', {
         maxZoom: 19,
     }).addTo(map);
 }
@@ -30,19 +30,19 @@ socket.on('location_update', (data) => {
 
 // Quando o servidor envia uma atualização da lista de usuários
 socket.on('user_update', (users) => {
-    const userSelect = document.getElementById('userSelect');
-    userSelect.innerHTML = '';
+    const userList = document.getElementById('users');
+    userList.innerHTML = '';
     users.forEach((user) => {
-        const option = document.createElement('option');
-        option.text = user.name;
-        option.value = user.id;
-        userSelect.add(option);
+        const userDiv = document.createElement('div');
+        userDiv.className = 'user';
+        userDiv.textContent = user.name;
+        userDiv.setAttribute('data-id', user.id);
+        userDiv.addEventListener('click', () => {
+            selectedUser = user.id;
+            updateMap(user.location);
+        });
+        userList.appendChild(userDiv);
     });
-});
-
-// Quando o usuário selecionado muda
-document.getElementById('userSelect').addEventListener('change', (event) => {
-    selectedUser = event.target.value;
 });
 
 initMap();

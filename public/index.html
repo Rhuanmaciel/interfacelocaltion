@@ -6,13 +6,17 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <div id="userSelection">
-        <label for="userSelect">Escolha um usuário:</label>
-        <select id="userSelect">
-            <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
-        </select>
+    <div id="container">
+        <div id="userList">
+            <h2>Usuários</h2>
+            <div id="users">
+                <!-- Lista de usuários será preenchida dinamicamente pelo JavaScript -->
+            </div>
+        </div>
+        <div id="mapContainer">
+            <div id="mapid"></div>
+        </div>
     </div>
-    <div id="mapid"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="/socket.io.js"></script>
     <script src="app.js"></script>
