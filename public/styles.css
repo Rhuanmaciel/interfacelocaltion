@@ -13,8 +13,8 @@ body {
 #mapWrapper {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;  /* Esta linha foi alterada */
-    height: 100%;
+    align-items: flex-start;
+    height: 100vh; /* Altere esta linha */
     width: 100%;
 }
 

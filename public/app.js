@@ -5,7 +5,8 @@ let selectedUser;
 const socket = io();
 
 function initMap() {
-  map = L.map('mapid').setView([0, 0], 2);
+  const map = L.map('mapid').setView([0, 0], 2);
+  map.invalidateSize();
   L.tileLayer('https://{s}.{base}.maps.ls.hereapi.com/maptile/2.1/{type}/{mapID}/{variant}/{z}/{x}/{y}/{size}/{format}?apiKey={apiKey}', {
     attribution: 'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
     subdomains: '1234',
