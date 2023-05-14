@@ -60,35 +60,40 @@ function addMarker(location, name) {
 }
 
 function updateMap(location) {
-  if (marker) {
-    map.removeLayer(marker);
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    marker = L.marker([location.lat, location.lng]).addTo(map)
+      .bindPopup(`<b>${selectedUser}</b><br>Última atualização: ${new Date().toLocaleString()}`)
+      .openPopup();
+    map.setView([location.lat, location.lng], 10, {animate: true});
   }
-  marker = L.marker([location.coords.latitude, location.coords.longitude]).addTo(map)
-    .bindPopup(`<b>${selectedUser}</b><br>Última atualização: ${new Date().toLocaleString()}`)
-    .openPopup();
-  map.setView([location.coords.latitude, location.coords.longitude], 10, {animate: true});
-}
 
-socket.on('location_update', (data) => {
-  if (data.id === selectedUser) {
-    updateMap(data.location);
-  }
-});
-
-socket.on('user_update', (users) => {
-  const userSelect = document.getElementById('userSelect');
-  userSelect.innerHTML = '';
-  users.forEach((user) => {
-    const option = document.createElement('option');
-    option.text = user.name;
-    option.value = user.id;
-    userSelect.add(option);
+  socket.on('location_update', (data) => {
+    if (data.id === selectedUser) {
+      updateMap(data.location);
+    }
   });
-});
+  
+  socket.on('user_update', (users) => {
+      const userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+      userTableBody.innerHTML = '';
+  
+      users.forEach((user) => {
+        const row = userTableBody.insertRow();
+        const cell = row.insertCell();
+        cell.textContent = user.name;
+        cell.dataset.userId = user.id;
+  
+        row.addEventListener('click', () => {
+          selectedUser = user.id;
+          updateMap(user.location); // Atualiza o mapa para a localização do usuário selecionado
+        });
+      });
+  });
 
 document.getElementById('userSelect').addEventListener('change', (event) => {
   selectedUser = event.target.value;
 });
 
 initMap();
-

@@ -24,19 +24,18 @@ io.on("connection", (socket) => {
     io.emit("user_update", users);
   });
 
-  socket.on("location_update", (data) => {
-    const user = users.find((user) => user.token === data.token);
-    if (user) {
-      console.log(`Recebida atualização de localização de ${user.name}`);
-      user.location = data.location;
-      io.emit("location_update", user);
-    }
+  // Listen for location updates from mobile app
+  socket.on("location", (data) => {
+    console.log(`Received location update: ${data}`);
+    // Re-emit the location update to all connected clients
+    io.emit("location_update", data);
   });
 
   socket.on("disconnect", () => {
     console.log("Cliente desconectado");
   });
 });
+
 
 server.listen(process.env.PORT || 3000, () => {
   console.log("Servidor WebSocket escutando na porta " + (process.env.PORT || 3000));
