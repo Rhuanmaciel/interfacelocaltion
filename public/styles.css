@@ -8,11 +8,12 @@ body {
 
 #mapid {
     position: relative;
-    width: 80%; /* Ajuste a largura do mapa conforme necessário */
-    height: 80%; /* Ajuste a altura do mapa conforme necessário */
+    width: 78%; /* Ajuste a largura do mapa conforme necessário */
+    height: 90%; /* Ajuste a altura do mapa conforme necessário */
     margin-left: auto; /* Posiciona o mapa à direita */
     border-radius: 10px; /* Adiciona bordas arredondadas */
     overflow: hidden; /* Esconde qualquer conteúdo que ultrapasse as bordas arredondadas */
+    
 }
 
 #userSelection {
