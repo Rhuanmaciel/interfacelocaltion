@@ -23,20 +23,14 @@ io.on('connection', (socket) => {
     socket.emit('user_update', users); // Enviar a lista de usuários para novos clientes
 
     // Quando o cliente envia uma atualização de localização
-    socket.on('location_update', (data) => {
-        console.log(`Recebida atualização de localização de ${data.id}`);
-        io.emit('location_update', data); // Transmitir a atualização de localização para todos os clientes
-    });
-
-    // Quando o cliente envia uma atualização de localização
-    socket.on('location_update', (data) => {
-        const user = users.find(user => user.token === data.token);
-        if (user) {
-            console.log(`Recebida atualização de localização de ${user.id}`);
-            user.location = data.location;
-            io.emit('location_update', user); // Transmitir a atualização de localização para todos os clientes
-        }
-    });
+socket.on('location_update', (data) => {
+    const user = users.find(user => user.token === data.token);
+    if (user) {
+        console.log(`Recebida atualização de localização de ${user.name}`);
+        user.location = data.location;
+        io.emit('location_update', user); // Transmitir a atualização de localização para todos os clientes
+    }
+});
 
     socket.on('disconnect', () => {
         console.log('Cliente desconectado');

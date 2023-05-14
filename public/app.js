@@ -2,8 +2,7 @@ let map;
 let marker;
 let selectedUser;
 
-const socket = io.connect();
-
+const socket = io();
 
 // Iniciar o mapa
 function initMap() {
@@ -12,7 +11,7 @@ function initMap() {
         attribution: 'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
         subdomains: '1234',
         mapID: 'newest',
-        apiKey: 'XDR6IxYlZY2IYG7Y0djDapRmorT5MRKqeWDOMDXNAia7H6WYSH7PKomV9VNhh4UY', // substitua por sua própria chave de API
+        apiKey: '<YOUR_API_KEY>', // substitua por sua própria chave de API
         base: 'base',
         variant: 'normal.day',
         maxZoom: 19,
@@ -23,6 +22,30 @@ function initMap() {
     }).addTo(map);
 }
 
+function updateLocation() {
+    if (!navigator.geolocation) {
+      alert("A geolocalização não é suportada pelo seu navegador.");
+      return;
+    }
+  
+    navigator.geolocation.getCurrentPosition((position) => {
+      const locationData = {
+        token: userToken,
+        location: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+        name: userName, // Inclua o nome do usuário aqui
+      };
+  
+      socket.emit("location_update", locationData);
+    });
+  }
+
+function addMarker(location, name) {
+  const marker = L.marker([location.lat, location.lng]).addTo(map);
+  marker.bindPopup(`<b>${name}</b>`).openPopup();
+}
 
 // Atualizar o mapa com a nova localização
 function updateMap(location) {
