@@ -1,65 +1,14 @@
-html {
-    height: 100%;
-}
-
 body {
-    min-height: 100%;
-    margin: 0;
     background-color: #1a1a1a;
     color: #ffffff;
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding: 2%;
 }
 
-#userTableWrapper {
-    background-color: rgba(26, 26, 26, 0.8);
-    padding: 1rem;
-    border-radius: 10px;
-    overflow: auto;
-    max-height: 95%;
-    width: 23%;
-    margin-right: 2%;
-    transition: background-color 0.3s ease;
-}
-
-#userTableWrapper h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2em;
-    text-align: left;
-    margin-top: 0;
-}
-
-#userTable {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-}
-
-#userTable tbody td {
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#userTable tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-#mapContainer {
-    position: relative;
-    width: 74%;
-    height: 100%;
-    border-radius: 10px;
-    overflow: hidden;
+#userSelection {
+    margin: 20px;
 }
 
 #mapid {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    height: 400px;
 }

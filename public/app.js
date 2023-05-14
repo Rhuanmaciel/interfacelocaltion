@@ -2,82 +2,47 @@ let map;
 let marker;
 let selectedUser;
 
-const socket = io();
+const socket = io.connect('http://your-websocket-server.com');
 
+// Iniciar o mapa
 function initMap() {
-  const map = L.map('mapid').setView([0, 0], 2);
-  map.invalidateSize();
-  L.tileLayer('https://{s}.{base}.maps.ls.hereapi.com/maptile/2.1/{type}/{mapID}/{variant}/{z}/{x}/{y}/{size}/{format}?apiKey={apiKey}', {
-    attribution: 'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
-    subdomains: '1234',
-    mapID: 'newest',
-    apiKey: 'pRmorT5MRKqeWDOMDXNAia7H6WYSH7PKomV9VNhh4UY',
-    base: 'base',
-    variant: 'normal.day',
-    maxZoom: 19,
-    type: 'maptile',
-    size: '256',
-    format: 'png8',
-    id: 'map'
-  }).addTo(map);
+    map = L.map('mapid').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
 }
 
-function registerUser(name, location) {
-  const userData = {
-    name: name,
-    location: location,
-  };
-
-  socket.emit("register_user", userData);
+// Atualizar o mapa com a nova localização
+function updateMap(location) {
+    if (marker) {
+        map.removeLayer(marker);
+    }
+    marker = L.marker([location.coords.latitude, location.coords.longitude]).addTo(map);
+    map.setView([location.coords.latitude, location.coords.longitude], 10);
 }
 
-function updateLocation() {
-  if (!navigator.geolocation) {
-    alert("A geolocalocalização não é suportada por este navegador.");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition((position) => {
-    const location = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    };
-
-    socket.emit("update_location", location);
-  });
-}
-
-socket.on("users_update", (users) => {
-  const userTable = document.getElementById("userTable");
-  userTable.innerHTML = "";
-
-  users.forEach((user, index) => {
-    const row = userTable.insertRow();
-    const cell = row.insertCell();
-
-    cell.textContent = user.name;
-    row.onclick = () => {
-      selectUser(index);
-    };
-  });
+// Quando o servidor envia uma atualização de localização
+socket.on('location_update', (data) => {
+    if (data.id === selectedUser) {
+        updateMap(data.location);
+    }
 });
 
-socket.on("selected_user_location", (location) => {
-  if (marker) {
-    marker.remove();
-  }
-
-  const latlng = [location.latitude, location.longitude];
-  map.setView(latlng, 13);
-  marker = L.marker(latlng).addTo(map);
+// Quando o servidor envia uma atualização da lista de usuários
+socket.on('user_update', (users) => {
+    const userSelect = document.getElementById('userSelect');
+    userSelect.innerHTML = '';
+    users.forEach((user) => {
+        const option = document.createElement('option');
+        option.text = user.name;
+        option.value = user.id;
+        userSelect.add(option);
+    });
 });
 
-function selectUser(index) {
-  selectedUser = index;
-  socket.emit("select_user", index);
-}
+// Quando o usuário selecionado muda
+document.getElementById('userSelect').addEventListener('change', (event) => {
+    selectedUser = event.target.value;
+});
 
 initMap();
-registerUser("Nome do Usuário", { latitude: -23.5505, longitude: -46.6333 });
-updateLocation();
-setInterval(updateLocation, 10000);
