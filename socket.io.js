@@ -1,42 +1,43 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const path = require('path'); // Importação adicional
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Adicionado para servir arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Lista de usuários (isso seria substituído por uma lista dinâmica no seu caso)
 let users = [];
 
-// Cada usuário seria um objeto assim: {id: 'abc', name: 'Usuário ABC'}
+io.on("connection", (socket) => {
+  console.log("Novo cliente conectado");
+  socket.emit("user_update", users);
 
-io.on('connection', (socket) => {
-    console.log('Novo cliente conectado');
-    socket.emit('user_update', users); // Enviar a lista de usuários para novos clientes
+  // Handle user registration
+  socket.on("register_user", (user) => {
+    users.push(user);
+    io.emit("user_update", users);
+  });
 
-    // Quando o cliente envia uma atualização de localização
-socket.on('location_update', (data) => {
-    const user = users.find(user => user.token === data.token);
+  socket.on("location_update", (data) => {
+    const user = users.find((user) => user.token === data.token);
     if (user) {
-        console.log(`Recebida atualização de localização de ${user.name}`);
-        user.location = data.location;
-        io.emit('location_update', user); // Transmitir a atualização de localização para todos os clientes
+      console.log(`Recebida atualização de localização de ${user.name}`);
+      user.location = data.location;
+      io.emit("location_update", user);
     }
-});
+  });
 
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
-    });
+  socket.on("disconnect", () => {
+    console.log("Cliente desconectado");
+  });
 });
 
 server.listen(process.env.PORT || 3000, () => {
-    console.log('Servidor WebSocket escutando na porta ' + (process.env.PORT || 3000));
+  console.log("Servidor WebSocket escutando na porta " + (process.env.PORT || 3000));
 });
