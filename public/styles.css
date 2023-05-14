@@ -37,10 +37,13 @@ body {
 
 /* Adicione consultas de mídia para dispositivos menores */
 @media screen and (max-width: 768px) {
+    body {
+        font-size: 18px; /* Ajuste o tamanho da fonte para dispositivos móveis */
+    }
+
     #userSelection {
         top: 10px;
-        left: 50%;
-        transform: translate(-50%, 0);
+        left: 10px;
     }
 
     #mapContainer {
@@ -49,5 +52,7 @@ body {
 
     #mapid {
         width: 95%; /* Ajuste a largura do mapa para dispositivos menores */
+        height: 85%; /* Ajuste a altura do mapa para dispositivos menores */
+        border-radius: 10px; /* Mantém as bordas arredondadas */
     }
 }

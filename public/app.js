@@ -91,3 +91,4 @@ document.getElementById('userSelect').addEventListener('change', (event) => {
 });
 
 initMap();
+
