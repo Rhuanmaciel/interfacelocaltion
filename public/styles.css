@@ -6,6 +6,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
+#mapWrapper {
+    position: relative;
+    height: 100%;
+}
+
 #userSelection {
     position: absolute;
     top: 10px;
@@ -28,4 +33,21 @@ body {
     height: 95%; /* Ajuste a altura do mapa conforme necessário */
     border-radius: 10px; /* Adiciona bordas arredondadas */
     overflow: hidden; /* Esconde qualquer conteúdo que ultrapasse as bordas arredondadas */
+}
+
+/* Adicione consultas de mídia para dispositivos menores */
+@media screen and (max-width: 768px) {
+    #userSelection {
+        top: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+    #mapContainer {
+        justify-content: center;
+    }
+
+    #mapid {
+        width: 95%; /* Ajuste a largura do mapa para dispositivos menores */
+    }
 }
