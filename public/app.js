@@ -33,71 +33,51 @@ function registerUser(name, location) {
 
 function updateLocation() {
   if (!navigator.geolocation) {
-    alert("A geolocalização não é suportada pelo seu navegador.");
+    alert("A geolocalocalização não é suportada por este navegador.");
     return;
   }
 
   navigator.geolocation.getCurrentPosition((position) => {
-    const locationData = {
-      token: userToken,
-      location: {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      },
-      name: userName,
+    const location = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
     };
 
-    socket.emit("location_update", locationData);
+    socket.emit("update_location", location);
   });
 }
 
-function onUserRegistrationSuccess(name, location) {
-  registerUser(name, location);
-}
+socket.on("users_update", (users) => {
+  const userTable = document.getElementById("userTable");
+  userTable.innerHTML = "";
 
-function addMarker(location, name) {
-  const marker = L.marker([location.lat, location.lng]).addTo(map);
-  marker.bindPopup(`<b>${name}</b>`).openPopup();
-}
+  users.forEach((user, index) => {
+    const row = userTable.insertRow();
+    const cell = row.insertCell();
 
-function updateMap(location) {
-    if (marker) {
-      map.removeLayer(marker);
-    }
-    marker = L.marker([location.lat, location.lng]).addTo(map)
-      .bindPopup(`<b>${selectedUser}</b><br>Última atualização: ${new Date().toLocaleString()}`)
-      .openPopup();
-    map.setView([location.lat, location.lng], 10, {animate: true});
+    cell.textContent = user.name;
+    row.onclick = () => {
+      selectUser(index);
+    };
+  });
+});
+
+socket.on("selected_user_location", (location) => {
+  if (marker) {
+    marker.remove();
   }
 
-  socket.on('location_update', (data) => {
-    if (data.id === selectedUser) {
-      updateMap(data.location);
-    }
-  });
-  
-  socket.on('user_update', (users) => {
-      const userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
-      userTableBody.innerHTML = '';
-  
-      users.forEach((user) => {
-        const row = userTableBody.insertRow();
-        const cell = row.insertCell();
-        cell.textContent = user.name;
-        cell.dataset.userId = user.id;
-  
-        row.addEventListener('click', () => {
-          selectedUser = user.id;
-          updateMap(user.location); // Atualiza o mapa para a localização do usuário selecionado
-        });
-      });
-  });
-
-document.getElementById('userSelect').addEventListener('change', (event) => {
-  selectedUser = event.target.value;
+  const latlng = [location.latitude, location.longitude];
+  map.setView(latlng, 13);
+  marker = L.marker(latlng).addTo(map);
 });
+
+function selectUser(index) {
+  selectedUser = index;
+  socket.emit("select_user", index);
+}
 
 initMap();
-
-document.addEventListener('DOMContentLoaded', function() {
-});
+registerUser("Nome do Usuário", { latitude: -23.5505, longitude: -46.6333 });
+updateLocation();
+setInterval(updateLocation, 10000);
