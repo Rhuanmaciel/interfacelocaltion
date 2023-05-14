@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+#userSelection {
+    margin: 20px;
+}
+
+#mapid {
+    width: 80%;
+    height: 80%;
+}

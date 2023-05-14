@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Localização em tempo real</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <div id="userSelection">
+        <label for="userSelect">Escolha um usuário:</label>
+        <select id="userSelect">
+            <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+        </select>
+    </div>
+    <div id="mapid"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
